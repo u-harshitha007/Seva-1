@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  reactStrictMode: false,
+  experimental: {
+    // Use webpack instead of turbopack to avoid workspace root detection issues
+  },
 };
 
 export default nextConfig;

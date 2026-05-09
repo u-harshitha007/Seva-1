@@ -1,26 +1,121 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --cyan: #00d4ff;
+  --bg: #07090f;
+  --bg-card: rgba(10,16,28,0.9);
+  --border: rgba(0,212,255,0.13);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  background: var(--bg);
+  color: #e2e8f0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.2); border-radius: 2px; }
+
+/* Cards */
+.card {
+  background: rgba(10,16,28,0.85);
+  border: 1px solid rgba(0,212,255,0.11);
+  border-radius: 10px;
+  backdrop-filter: blur(12px);
+}
+.card-bright {
+  background: rgba(8,20,40,0.92);
+  border: 1px solid rgba(0,212,255,0.18);
+  border-radius: 10px;
+  backdrop-filter: blur(16px);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Mono */
+.mono { font-family: 'JetBrains Mono','Fira Code','Courier New',monospace; }
+
+/* Gradient text */
+.grad-text {
+  background: linear-gradient(135deg,#00d4ff,#7b2fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Grid bg */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Scan line */
+@keyframes scan { 0%{top:-2px} 100%{top:100vh} }
+.scan-line {
+  position:fixed;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,212,255,0.25),transparent);
+  animation:scan 12s linear infinite;
+  pointer-events:none;z-index:9999;
+}
+
+/* Pulse */
+@keyframes marker-pulse {
+  0%  { transform:scale(1);opacity:0.7; }
+  70% { transform:scale(2.4);opacity:0; }
+  100%{ transform:scale(1);opacity:0; }
+}
+
+/* Leaflet dark overrides */
+.leaflet-container { background:#07090f !important; font-family:inherit; }
+.leaflet-tile-pane { filter:brightness(0.52) saturate(0.35) hue-rotate(180deg); }
+.leaflet-control-attribution { display:none !important; }
+.leaflet-control-zoom a {
+  background:rgba(8,20,40,0.92) !important;
+  color:#00d4ff !important;
+  border-color:rgba(0,212,255,0.18) !important;
+  font-size:14px !important;
+}
+.leaflet-popup-content-wrapper {
+  background:rgba(8,20,40,0.97) !important;
+  border:1px solid rgba(0,212,255,0.22) !important;
+  border-radius:10px !important;
+  color:#e2e8f0 !important;
+  box-shadow:0 8px 32px rgba(0,0,0,0.6),0 0 20px rgba(0,212,255,0.1) !important;
+  padding:0 !important;
+}
+.leaflet-popup-content { margin:0 !important; }
+.leaflet-popup-tip { background:rgba(8,20,40,0.97) !important; }
+.leaflet-popup-close-button {
+  color:#6b7280 !important;
+  font-size:18px !important;
+  top:8px !important;
+  right:10px !important;
+}
+.leaflet-popup-close-button:hover { color:#e2e8f0 !important; }
+
+/* Focus ring for accessibility */
+button:focus-visible, a:focus-visible {
+  outline: 2px solid #00d4ff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Severity badge */
+.badge-critical { background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:#ef4444; }
+.badge-high     { background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);color:#f97316; }
+.badge-medium   { background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#f59e0b; }
+.badge-low      { background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.3); color:#22c55e; }
+
+/* Advisory banner pulse */
+@keyframes advisory-pulse {
+  0%,100% { opacity:1; }
+  50%     { opacity:0.7; }
 }
