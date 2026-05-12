@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { NodeData, AIAlert, PredictionResult, SystemHealth, TrafficFlow, MqttEvent } from '@/types';
 
-const BACKEND_URL = 'http://localhost:4000';
+const BACKEND_URL = 'https://viltrum-dfir.onrender.com';
 
 export interface RastaState {
   nodes: NodeData[];
